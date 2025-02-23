@@ -9,7 +9,8 @@ const User = sequelize.define('User', {
   },
   telegramId: {
     type: DataTypes.STRING,
-    unique: true
+    unique: true,
+    allowNull: false
   },
   type: {
     type: DataTypes.ENUM('client', 'contractor', 'admin'),

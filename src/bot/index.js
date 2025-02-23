@@ -6,6 +6,9 @@ require('dotenv').config();
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
 
+// Make bot available globally
+global.bot = bot;
+
 // Command handlers
 bot.onText(/\/start/, handleStart);
 bot.onText(/\/register/, handleRegistration);

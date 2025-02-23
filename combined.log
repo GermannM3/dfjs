@@ -1,0 +1,4 @@
+{"level":"info","message":"Database connection established successfully.","timestamp":"2025-02-23T17:25:40.837Z"}
+{"level":"info","message":"Database models synchronized.","timestamp":"2025-02-23T17:25:41.023Z"}
+{"level":"info","message":"Server is running on port 3000","timestamp":"2025-02-23T17:25:41.027Z"}
+{"level":"info","message":"SIGTERM received. Starting graceful shutdown...","timestamp":"2025-02-23T17:26:36.848Z"}

@@ -1,4 +1,5 @@
-const { User } = require('../../models');
+const models = require('../../models');
+const { User } = models;
 
 const handleStart = async (msg) => {
   const chatId = msg.chat.id;
