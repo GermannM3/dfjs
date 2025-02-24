@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrillFlow - Статистика</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>DrillFlow - Публичная статистика</h1>
+  </header>
+
+  <main>
+    <section class="stats-grid">
+      <div class="stat-card">
+        <h3>Всего заказов</h3>
+        <p class="stat-number"><%= stats.totalOrders %></p>
+      </div>
+      <div class="stat-card">
+        <h3>Заказов сегодня</h3>
+        <p class="stat-number"><%= stats.dailyOrders %></p>
+      </div>
+      <div class="stat-card">
+        <h3>Активных подрядчиков</h3>
+        <p class="stat-number"><%= stats.activeContractors %></p>
+      </div>
+      <div class="stat-card">
+        <h3>Средний рейтинг</h3>
+        <p class="stat-number">⭐️ <%= stats.averageRating %></p>
+      </div>
+    </section>
+
+    <section class="contractors-section">
+      <h2>Топ подрядчиков</h2>
+      <div class="contractors-grid">
+        <% topContractors.forEach(contractor => { %>
+          <div class="contractor-card">
+            <h3><%= contractor.fullName %></h3>
+            <p class="rating">⭐️ <%= contractor.rating.toFixed(1) %></p>
+            <p class="specialization"><%= contractor.specialization.join(', ') %></p>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <section class="reviews-section">
+      <h2>Последние отзывы</h2>
+      <div class="reviews-grid">
+        <% recentReviews.forEach(review => { %>
+          <div class="review-card">
+            <div class="review-header">
+              <span class="rating">⭐️ <%= review.rating %></span>
+              <span class="contractor"><%= review.contractor.fullName %></span>
+            </div>
+            <p class="review-text"><%= review.review %></p>
+            <p class="review-date">
+              <%= new Date(review.createdAt).toLocaleDateString('ru-RU') %>
+            </p>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <h2>Статистика заказов</h2>
+      <canvas id="ordersChart"></canvas>
+    </section>
+  </main>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html> 

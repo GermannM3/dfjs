@@ -27,7 +27,10 @@ const User = sequelize.define('User', {
     type: DataTypes.ARRAY(DataTypes.STRING)
   },
   workRadius: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    validate: {
+      max: 100 // максимальный радиус 100 км
+    }
   },
   rating: {
     type: DataTypes.FLOAT,
@@ -37,6 +40,14 @@ const User = sequelize.define('User', {
     type: DataTypes.INTEGER,
     defaultValue: 2
   },
+  documents: {
+    type: DataTypes.JSONB, // для хранения ссылок на загруженные документы
+    defaultValue: {}
+  },
+  location: {
+    type: DataTypes.JSONB, // для хранения координат
+    defaultValue: {}
+  },
   isVerified: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
@@ -44,6 +55,20 @@ const User = sequelize.define('User', {
   status: {
     type: DataTypes.ENUM('active', 'blocked', 'pending'),
     defaultValue: 'pending'
+  },
+  notificationSettings: {
+    type: DataTypes.JSONB,
+    defaultValue: {
+      telegram: true,
+      sms: false
+    }
+  },
+  deviceInfo: {
+    type: DataTypes.JSONB,
+    defaultValue: {}
+  },
+  lastIp: {
+    type: DataTypes.STRING
   }
 });
 

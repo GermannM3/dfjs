@@ -9,24 +9,37 @@ const Order = sequelize.define('Order', {
   },
   clientId: {
     type: DataTypes.UUID,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id'
+    }
   },
   contractorId: {
-    type: DataTypes.UUID
+    type: DataTypes.UUID,
+    references: {
+      model: 'Users',
+      key: 'id'
+    }
   },
-  service: {
-    type: DataTypes.ENUM('drilling', 'repair', 'sewage'),
+  type: {
+    type: DataTypes.ENUM('бурение', 'ремонт_скважин', 'канализация'),
     allowNull: false
   },
   status: {
     type: DataTypes.ENUM(
-      'pending',
-      'assigned',
-      'in_progress',
-      'completed',
-      'cancelled'
+      'новый',
+      'поиск_исполнителя',
+      'принят',
+      'в_работе',
+      'выполнен',
+      'отменен'
     ),
-    defaultValue: 'pending'
+    defaultValue: 'новый'
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: false
   },
   location: {
     type: DataTypes.JSONB,
@@ -36,23 +49,27 @@ const Order = sequelize.define('Order', {
     type: DataTypes.TEXT
   },
   photos: {
-    type: DataTypes.ARRAY(DataTypes.STRING)
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    defaultValue: []
   },
   price: {
     type: DataTypes.DECIMAL(10, 2)
   },
-  prepaymentStatus: {
-    type: DataTypes.ENUM('pending', 'paid', 'refunded'),
-    defaultValue: 'pending'
+  prepayment: {
+    type: DataTypes.DECIMAL(10, 2)
+  },
+  completionDate: {
+    type: DataTypes.DATE
   },
   rating: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    validate: {
+      min: 1,
+      max: 5
+    }
   },
   review: {
     type: DataTypes.TEXT
-  },
-  completedAt: {
-    type: DataTypes.DATE
   }
 });
 

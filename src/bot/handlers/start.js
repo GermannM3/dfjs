@@ -1,34 +1,53 @@
-const models = require('../../models');
-const { User } = models;
+const { User } = require('../../models');
 
 const handleStart = async (msg) => {
   const chatId = msg.chat.id;
-  
+
   try {
     const user = await User.findOne({
       where: { telegramId: chatId.toString() }
     });
 
-    if (!user) {
-      return bot.sendMessage(
-        chatId,
-        'Welcome to DrillFlow! Please register using /register command.'
-      );
+    let message;
+    let keyboard;
+
+    if (user) {
+      message = `👋 Добро пожаловать, ${user.fullName}!\n\nВыберите действие:`;
+      
+      keyboard = {
+        reply_markup: {
+          keyboard: [
+            ['📝 Создать заказ', '📋 Мои заказы'],
+            ['👤 Профиль', '📞 Поддержка'],
+            ['❓ Помощь', '⚙️ Настройки']
+          ],
+          resize_keyboard: true
+        }
+      };
+    } else {
+      message = '👋 Добро пожаловать в DrillFlow!\n\nДля начала работы нажмите кнопку "Регистрация":';
+      
+      keyboard = {
+        reply_markup: {
+          keyboard: [
+            ['📝 Регистрация'],
+            ['❓ Помощь', '📞 Поддержка']
+          ],
+          resize_keyboard: true
+        }
+      };
     }
 
-    const welcomeBack = `Welcome back to DrillFlow!\n\nUse these commands:\n` +
-      `/profile - View your profile\n` +
-      `/orders - Manage orders\n` +
-      `/support - Get help`;
-
-    return bot.sendMessage(chatId, welcomeBack);
+    await bot.sendMessage(chatId, message, keyboard);
   } catch (error) {
     console.error('Start handler error:', error);
-    return bot.sendMessage(
+    await bot.sendMessage(
       chatId,
-      'Sorry, there was an error. Please try again later.'
+      'Произошла ошибка. Попробуйте позже или обратитесь в поддержку @Sherstikbot'
     );
   }
 };
 
-module.exports = { handleStart };
+module.exports = {
+  handleStart
+};
